@@ -4,9 +4,12 @@ import "./App.css";
   const [countries,setCountries]=useState([]);
   const [searchTerm,setSearchTerm]=useState("");
   const [filteredCountries,setFilteredCountries]=useState([]);
+  const [loading,setLoading]=useState(true);
+  const [error,setError]=useState(null);
    useEffect(()=>{
     const fetchCountries=async()=>{
       try{
+        setLoading(true);
         const response=await fetch("https://restcountries.com/v3.1/all");
         if(!response.ok){
           throw new Error(`HTTP error! status:${response.status}`);
@@ -15,7 +18,10 @@ import "./App.css";
         setCountries(data);
         setFilteredCountries(data);
       } catch (error) {
+        setError("Failed to fetch countries. Please try again later.");
         console.error("Error fetching countries:",error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchCountries();
@@ -35,7 +41,17 @@ import "./App.css";
        value={searchTerm}
        onChange={(e)=>setSearchTerm(e.target.value)}
        className="search-bar"
+       aria-label="search-countries"
       />
+      {loading ? (
+        <p className="loading">
+          Loading countries...
+        </p>
+      ) : error ? (
+        <p className="error">
+          {error}
+        </p>
+      ) : (
       <div className="country-grid">
         {filteredCountries.length > 0 ? (
           filteredCountries.map((country)=>(
@@ -52,6 +68,7 @@ import "./App.css";
           <p className="no-results" >No countries found</p>
         )}
       </div>
+      )}
     </div>
   );
  };
