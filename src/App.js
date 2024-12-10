@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React, {useState,useEffect} from "react";
 import "./App.css";
  const App=()=>{
   const [countries,setCountries]=useState([]);
@@ -58,7 +58,7 @@ import "./App.css";
             <div className="countryCard" key={country.cca3}>
               <img  
                 src={country.flags.png}
-                alt={`Flag of${country.name.common}`}
+                alt={`Flag of ${country.name.common}`}
                 className="flag"
               />
               <p className="country-name">{country.name.common}</p>
