@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
+const API_URL = "https://countries-search-data-prod-812920491762.asia-south1.run.app/countries";
+
 const App = () => {
   const [countries, setCountries] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -12,8 +14,8 @@ const App = () => {
     const fetchCountries = async () => {
       try {
         setLoading(true);
-        setError(null); 
-        const response = await fetch("https://restcountries.com/v3.1/all");
+        setError(null);
+        const response = await fetch(API_URL);
 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -38,7 +40,7 @@ const App = () => {
       setFilteredCountries(countries);
     } else {
       const results = countries.filter((country) =>
-        country.name.common.toLowerCase().includes(searchTerm.toLowerCase())
+        country.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredCountries(results);
     }
@@ -62,13 +64,13 @@ const App = () => {
         <div className="country-grid">
           {filteredCountries.length > 0 ? (
             filteredCountries.map((country) => (
-              <div className="countryCard" key={country.cca3}>
+              <div className="countryCard" key={country.code}>
                 <img
-                  src={country.flags.png}
-                  alt={`Flag of ${country.name.common}`}
+                  src={country.flag}
+                  alt={`Flag of ${country.name}`}
                   className="flag"
                 />
-                <p className="country-name">{country.name.common}</p>
+                <p className="country-name">{country.name}</p>
               </div>
             ))
           ) : (
