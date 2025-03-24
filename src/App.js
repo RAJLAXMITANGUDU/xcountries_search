@@ -6,7 +6,6 @@ const API_URL = "https://countries-search-data-prod-812920491762.asia-south1.run
 const App = () => {
   const [countries, setCountries] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredCountries, setFilteredCountries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -16,14 +15,11 @@ const App = () => {
         setLoading(true);
         setError(null);
         const response = await fetch(API_URL);
-
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-
         const data = await response.json();
         setCountries(data);
-        setFilteredCountries(data);
       } catch (error) {
         setError("Failed to fetch countries. Please try again later.");
         console.error("Error fetching countries:", error);
@@ -31,20 +27,12 @@ const App = () => {
         setLoading(false);
       }
     };
-
     fetchCountries();
   }, []);
 
-  useEffect(() => {
-    if (!searchTerm) {
-      setFilteredCountries(countries);
-    } else {
-      const results = countries.filter((country) =>
-        country.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setFilteredCountries(results);
-    }
-  }, [searchTerm, countries]);
+  const filteredCountries = countries.filter((country) =>
+    country.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="app">
