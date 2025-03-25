@@ -1,73 +1,62 @@
-import React, { useState, useEffect } from "react";
-import "./App.css";
+import React, { useState, useEffect } from 'react';
+import './App.css';
 
-const API_URL = "https://countries-search-data-prod-812920491762.asia-south1.run.app/countries";
-
-const App = () => {
+function App() {
   const [countries, setCountries] = useState([]);
+  const [filteredCountries, setFilteredCountries] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await fetch(API_URL);
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const data = await response.json();
+    fetch('https://restcountries.com/v3.1/all')
+      .then((response) => response.json())
+      .then((data) => {
         setCountries(data);
-      } catch (error) {
-        setError("Failed to fetch countries. Please try again later.");
-        console.error("Error fetching countries:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCountries();
+        setFilteredCountries(data);
+      })
+      .catch((error) => console.error('Error fetching countries:', error));
   }, []);
 
-  const filteredCountries = countries.filter((country) =>
-    country.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    
+    if (value === "") {
+      setFilteredCountries(countries);
+    } else {
+      const filtered = countries.filter(country =>
+        country.name.common.toLowerCase().includes(value.toLowerCase())
+      );
+      setFilteredCountries(filtered);
+    }
+  };
 
   return (
-    <div className="app">
+    <div className="App">
       <input
         type="text"
-        placeholder="Search for a country..."
+        placeholder="Search for a country"
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="search-bar"
-        aria-label="search-countries"
+        onChange={handleSearchChange}
+        className="searchBar"
       />
-      {loading ? (
-        <p className="loading">Loading countries...</p>
-      ) : error ? (
-        <p className="error">{error}</p>
-      ) : (
-        <div className="country-grid">
-          {filteredCountries.length > 0 ? (
-            filteredCountries.map((country) => (
-              <div className="countryCard" key={country.code}>
-                <img
-                  src={country.flag}
-                  alt={`Flag of ${country.name}`}
-                  className="flag"
-                />
-                <p className="country-name">{country.name}</p>
-              </div>
-            ))
-          ) : (
-            <p className="no-results">No countries found</p>
-          )}
-        </div>
-      )}
+      <div className="countriesContainer">
+        {filteredCountries.length > 0 ? (
+          filteredCountries.map((country) => (
+            <div key={country.cca3} className="countryCard">
+              <img
+                src={country.flags.png}
+                alt={`${country.name.common} flag`}
+                className="flag"
+              />
+              <p>{country.name.common}</p>
+            </div>
+          ))
+        ) : (
+          <p>No countries found</p>
+        )}
+      </div>
     </div>
   );
-};
+}
 
 export default App;
