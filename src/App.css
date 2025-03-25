@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
   margin-top: 20px;
 }
@@ -38,4 +38,40 @@
   margin-top: 10px;
   font-size: 18px;
   font-weight: bold;
+} */
+.App {
+  text-align: center;
+}
+
+.search-bar {
+  margin: 20px 0;
+  padding: 10px;
+  width: 300px;
+  font-size: 16px;
+}
+
+.country-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.countryCard {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  width: 150px;
+  text-align: center;
+}
+
+.countryCard img {
+  width: 100px;
+  height: 60px;
+  object-fit: cover;
+}
+
+.countryCard h3 {
+  margin-top: 10px;
+  font-size: 16px;
 }
