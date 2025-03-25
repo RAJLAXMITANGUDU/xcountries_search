@@ -12,7 +12,7 @@
   border: 1px solid #ccc;
 }
 
-.countriesContainer {
+.country-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

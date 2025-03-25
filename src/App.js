@@ -39,7 +39,7 @@ function App() {
         onChange={handleSearchChange}
         className="searchBar"
       />
-      <div className="countriesContainer">
+      <div className="country-grid">
         {filteredCountries.length > 0 ? (
           filteredCountries.map((country) => (
             <div key={country.cca3} className="countryCard">
