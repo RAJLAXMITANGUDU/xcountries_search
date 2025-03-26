@@ -1,0 +1,15 @@
+.countryCard {
+    width: 9rem;
+    height: 9rem;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 1rem;
+    border: 1px solid lightgray;
+    align-items: center;
+    border-radius: 10px;
+  }
+  
+  .flag {
+    width: 6rem;
+    height: 6rem;
+  }
