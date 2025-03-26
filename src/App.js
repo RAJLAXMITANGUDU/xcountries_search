@@ -69,7 +69,7 @@ function App() {
 
   // Fetch countries data from API
   useEffect(() => {
-    fetch('https://restcountries.com/v3.1/all')
+    fetch('https://countries-search-data-prod-812920491762.asia-south1.run.app/countries')
       .then((response) => response.json())
       .then((data) => setCountries(data))
       .catch((error) => console.error('Error fetching countries:', error));
